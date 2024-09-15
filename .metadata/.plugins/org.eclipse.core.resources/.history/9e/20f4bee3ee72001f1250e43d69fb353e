@@ -1,0 +1,16 @@
+package com.eje3.main;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import com.eje3.main.client.RandomClient;
+
+
+public class Main {
+    public static void main(String[] args) {
+       
+    }
+}

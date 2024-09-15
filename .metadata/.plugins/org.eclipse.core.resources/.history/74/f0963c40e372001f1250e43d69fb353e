@@ -1,0 +1,8 @@
+package com.eje3.main;
+
+public class Eje3Contans {
+	public static String portRandom = "50000";
+	public static String portCalcUserValues = "50001";
+	public static String portCalcAnsValues = "50000";
+	
+}

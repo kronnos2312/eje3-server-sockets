@@ -1,0 +1,30 @@
+package com.eje3.process;
+
+import java.net.Socket;
+
+import com.eje3.tools.Randomizer;
+
+public class RandomProcess extends Thread{
+	
+	private Integer currentValue;
+	private Socket clientSocket;
+	
+	public RandomProcess(Socket socket) {
+        this.clientSocket = socket;
+    }
+	
+		
+	public Integer getCurrentValue() {
+		return currentValue;
+	}
+
+	public void setCurrentValue(Integer currentValue) {
+		this.currentValue = currentValue;
+	}
+	
+	@Override
+	public void run() {
+		currentValue = Randomizer.getInstance().getCurrent();
+	}
+
+}

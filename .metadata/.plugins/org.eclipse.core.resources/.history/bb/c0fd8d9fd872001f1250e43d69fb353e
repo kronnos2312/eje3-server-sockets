@@ -1,0 +1,21 @@
+package com.eje3.tools;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Randomizer {
+	
+	
+	private List<Integer> currentGenerate = new ArrayList<>();
+	private Integer current;
+	 
+	private static Randomizer instance; 
+	
+	public static Randomizer getRandomizer() {
+		if(instance==null) {
+			instance = new Randomizer(); 
+		}
+		return instance;
+	}
+	
+}

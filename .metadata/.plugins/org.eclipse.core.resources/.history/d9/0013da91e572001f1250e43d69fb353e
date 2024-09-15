@@ -1,0 +1,13 @@
+package com.eje3.process;
+
+import com.eje3.tools.Randomizer;
+
+public class RandomProcess extends Thread{
+
+	@Override
+	public void run() {
+		Randomizer.getInstance().getCurrent();
+	}
+	
+	
+}

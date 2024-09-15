@@ -1,0 +1,26 @@
+package com.eje3.main;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import com.eje3.main.client.RandomClient;
+
+
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService threadPool = Executors.newFixedThreadPool(10); // Pool de hilos para múltiples clientes
+        try (ServerSocket serverSocket = new ServerSocket(Eje3Contans.portRandom)) {
+            System.out.println("Servidor iniciado en el puerto " + PORT);
+            while (true) {
+                Socket clientSocket = serverSocket.accept(); // Aceptar conexión de cliente
+                System.out.println("Cliente conectado: " + clientSocket.getInetAddress());
+                threadPool.execute(new RandomClient(clientSocket)); // Asignar a un nuevo hilo
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

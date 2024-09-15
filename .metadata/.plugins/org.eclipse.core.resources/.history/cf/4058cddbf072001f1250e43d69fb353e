@@ -1,0 +1,11 @@
+package com.eje3.main;
+
+public class Eje3Contans {
+	public static String currentHost = "localhost";
+	
+	public static int portRandom = 50000;
+	public static int portCalcUserValues = 50001;
+	public static int portCalcAnsValues = 50002;
+	public static String messageYouWin = "Ganaste!!";
+	public static String messageYouLost = "Perdiste!!";
+}

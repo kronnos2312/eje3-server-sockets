@@ -1,0 +1,13 @@
+package com.eje3.main;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.eje3.tools.Randomizer;
+
+public class Main {
+
+	public static void main(String[] args) {
+
+	}
+}

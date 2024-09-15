@@ -1,0 +1,27 @@
+package com.eje3.main;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+
+	public static void main(String[] args) {
+		List<String> context = new ArrayList<>(); 
+		
+		context.add("============");
+		context.add("===");
+		context.add("============");
+		context.add("=");
+		context.add("=");
+		
+		int cont = 0;
+		for(String sr : context) {
+			cont ++;
+		}
+		System.out.println("\n");
+		System.out.println("\n");
+		System.out.println("\t\t"+cont);
+		System.out.println("\n");
+		System.out.println("\t\t"+context.size());
+	}
+}

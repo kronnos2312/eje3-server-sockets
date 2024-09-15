@@ -1,0 +1,28 @@
+package com.eje3.tools;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+public class Randomizer {
+	
+	 
+	private static Randomizer instance; 
+		
+	private List<Integer> currentGenerate = new ArrayList<>();
+	private Integer current;
+	
+	public Integer getCurrent() {
+		Random random = new Random();
+		int randomInt = random.nextInt(); 
+		return current;
+	}	
+	
+	public static Randomizer getRandomizer() {
+		if(instance==null) {
+			instance = new Randomizer(); 
+		}
+		return instance;
+	}
+	
+}

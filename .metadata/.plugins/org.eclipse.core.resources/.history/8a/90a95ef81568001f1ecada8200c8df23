@@ -1,0 +1,91 @@
+package com.eje2.tree;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.eje2.exception.Eje2Exception;
+
+public class Tree {
+	
+	// NODO RAIZ
+		private Node nodeRoot;
+		
+		// Método para agregar una hoja (nodo)
+		public void addLeaf(Integer indexRoot, Node leaf) throws Eje2Exception {
+			// Buscamos el nodo raíz por el índice
+			Node foundedNode = getNodeOnRootNodeByRootIndex(indexRoot);
+			
+			// Si el nodo raíz no existe, lanzar excepción
+			if (foundedNode == null) {
+				throw new Eje2Exception(String.format("El Nodo con el valor (%s) No Existe!", indexRoot));
+			}
+			
+			// Realizar la reasignación del nodo
+			readToReassignmentNode(foundedNode, leaf);
+		}
+		
+		// Método para buscar un nodo por el índice en el árbol
+		private Node getNodeByRootIndex(Integer index, Node nNode, List<Integer> parentIndexs) {
+			if (nNode == null) {
+				return null;
+			}
+			if (!nNode.getRaiz().equals(index) && (!(nNode.getLeftNode()==null) || !(nNode.getRightNode()==null)) ) {
+				parentIndexs.add(nNode.getRaiz());
+			}
+			// Si el nodo actual coincide con el índice, retornarlo
+			if (nNode.getRaiz().equals(index)) {
+				parentIndexs.add(nNode.getRaiz());
+				parentIndexs.stream().forEach(item -> { System.out.print(item+" "); });
+			    return nNode;
+			}
+			
+			// Buscar de manera recursiva en el subárbol izquierdo
+			Node found = getNodeByRootIndex(index, nNode.getLeftNode(), parentIndexs);
+			if (found != null) {
+				return found;
+			}
+			
+			// Buscar de manera recursiva en el subárbol derecho
+			return getNodeByRootIndex(index, nNode.getRightNode(), parentIndexs);
+		}
+		
+		// Método para obtener un nodo raíz a partir de su índice
+		public Node getNodeOnRootNodeByRootIndex(Integer index) throws Eje2Exception {
+			if (this.nodeRoot == null) {
+				throw new Eje2Exception("No se ha inicializado el nodo raíz");
+			}
+			List<Integer> indexs =  new ArrayList<Integer>();
+			
+			return getNodeByRootIndex(index, this.nodeRoot, indexs);
+		}
+		
+		// Método para reasignar un nodo en el árbol de acuerdo a las condiciones
+		private void readToReassignmentNode(Node root, Node leaf) {
+			// Si el nodo de la derecha está vacío y la raíz del nodo es mayor, asignarlo a la derecha
+			if (root.getRightNode() == null && leaf.getRaiz() > root.getRaiz()) {
+				root.setRightNode(leaf);
+			}
+			// Si el nodo de la izquierda está vacío y la raíz del nodo es menor, asignarlo a la izquierda
+			else if (root.getLeftNode() == null && leaf.getRaiz() < root.getRaiz()) {
+				root.setLeftNode(leaf);
+			}
+			// Si ambos nodos están ocupados, decidir recursivamente dónde insertarlo
+			else {
+				if (leaf.getRaiz() > root.getRaiz()) {
+					readToReassignmentNode(root.getRightNode(), leaf);
+				} else {
+					readToReassignmentNode(root.getLeftNode(), leaf);
+				}
+			}
+		}
+		
+		// ------------------- GETTERS Y SETTERS ---------------
+		
+		public Node getNodeRoot() {
+			return nodeRoot;
+		}
+
+		public void setNodeRoot(Node nodeRoot) {
+			this.nodeRoot = nodeRoot;
+		}
+}

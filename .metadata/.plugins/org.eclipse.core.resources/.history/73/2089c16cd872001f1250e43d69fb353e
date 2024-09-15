@@ -1,0 +1,13 @@
+package com.eje3.tools;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Randomizer {
+	private static List<Integer> currentGenerate = new ArrayList<>();
+	private static Integer current;
+	
+	
+	
+	
+}

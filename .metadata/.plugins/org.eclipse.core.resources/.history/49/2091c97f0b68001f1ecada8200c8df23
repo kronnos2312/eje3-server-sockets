@@ -1,0 +1,255 @@
+package com.eje2.tree;
+
+import com.eje2.utils.Util;
+
+/**
+ * 
+ */
+public class Node {
+	//
+	private Integer raiz;
+	//
+	private Node leftNode;
+	
+	// 
+	private Node rightNode;
+	
+	public Node() {
+		super();
+	}
+	
+	
+	public Node getLeftNode() {
+		return leftNode;
+	}
+
+
+	public void setLeftNode(Node leftNode) {
+		this.leftNode = leftNode;
+	}
+
+
+	public Node getRightNode() {
+		return rightNode;
+	}
+
+
+	public void setRightNode(Node rightNode) {
+		this.rightNode = rightNode;
+	}
+
+
+	public Node(Integer raiz) {
+		super();
+		this.raiz = raiz;
+	}
+
+	public Node(Integer raiz, Node leftNode, Node rightNode) {
+		super();
+		this.raiz = raiz;
+		this.leftNode = leftNode;
+		this.rightNode = rightNode;
+	}
+	
+	public Integer getRaiz() {
+		return this.raiz;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder contextMessage = new StringBuilder();
+		contextMessage.append("raiz: ");
+		contextMessage.append(this.raiz);
+		
+		if(Boolean.FALSE.equals(this.leftNode == null)) {
+			contextMessage.append(" Left: (");
+			contextMessage.append(this.leftNode.getRaiz());
+			contextMessage.append(" ) ");
+		}
+		
+		if(Boolean.FALSE.equals(this.rightNode == null)) {
+			contextMessage.append(" Right: (");
+			contextMessage.append(this.rightNode.getRaiz());
+			contextMessage.append(" ) ");
+		}			
+		return contextMessage.toString();
+	}
+	
+	public void addLeaf(Integer value) { 	
+		// Si el valor es menor que el nodo actual, insertar en el subárbol izquierdo
+	    if (value < this.raiz) {
+	        if (this.leftNode == null) {
+	            this.leftNode = new Node(value);  // Insertar nuevo nodo aquí
+	        } else {
+	            this.leftNode.addLeaf(value);    // Recursión hacia la izquierda
+	        }
+	    }
+	    // Si el valor es mayor o igual al nodo actual, insertar en el subárbol derecho
+	    else {
+	        if (this.rightNode == null) {
+	            this.rightNode = new Node(value); // Insertar nuevo nodo aquí
+	        } else {
+	            this.rightNode.addLeaf(value);   // Recursión hacia la derecha
+	        }
+        }
+    }
+	
+	// Método para imprimir en orden (inorder traversal)
+    public void showInOrder() {
+        // Recorrer el subárbol izquierdo
+        if (leftNode != null) {
+            leftNode.showInOrder();
+        }
+        
+        // Imprimir la raíz (actual nodo)
+        System.out.print(raiz + " ");
+        
+        // Recorrer el subárbol derecho
+        if (rightNode != null) {
+            rightNode.showInOrder();
+        }
+    }
+    
+    /**
+     * 
+     */
+    public void showLeafWithTwoChilds() {
+        
+    	// Recorrer el subárbol izquierdo
+        if (leftNode != null) {
+            leftNode.showLeafWithTwoChilds();
+        }
+    	// Verificar si el nodo tiene ambos hijos
+        if (leftNode != null && rightNode != null) {
+            System.out.print(raiz + " ");
+        }
+        
+        
+        
+        // Recorrer el subárbol derecho
+        if (rightNode != null) {
+            rightNode.showLeafWithTwoChilds();
+        }
+    }
+    
+    /**
+     * 
+     */
+    public void showLeafOneChildPar() {
+        // Verificar si el nodo tiene ambos hijos
+    	Integer leftRaiz = getValueFromNode(leftNode);
+    	Integer rightRaiz = getValueFromNode(rightNode);
+    	Integer result = getValuePar(leftRaiz , rightRaiz);  
+    	/*
+    	 * */
+    	//System.out.print(raiz + " ("+leftRaiz+") ("+rightRaiz+") "+Util.isPar(result) +" "+result			+ "\n ");
+    	if( Util.isPar(result)) {
+    		System.out.print(raiz+" " );
+        }
+        
+        // Recorrer el subárbol izquierdo
+        if (leftNode != null) {
+            leftNode.showLeafOneChildPar();
+        }
+        
+        // Recorrer el subárbol derecho
+        if (rightNode != null) {
+            rightNode.showLeafOneChildPar();
+        }
+    }
+    
+    private Integer getValuePar(Integer a, Integer b) {
+        // Mantén los valores como están y realiza las verificaciones
+        
+    	if (!( a == 0 ) && b == 0) {
+            return a;
+        }
+    	
+    	if (!( b == 0 ) && a == 0) {
+            return b;
+        }
+    	
+    	if ( a == 0 && b == 0) {
+            return 1;
+        }
+    	
+    	if ( Util.isPar(a) && !Util.isPar(b)) {
+            return a;
+        }
+    	if ( !Util.isPar(a) && Util.isPar(b)) {
+            return b;
+        }
+    	
+    	if ( !Util.isPar(a) && !Util.isPar(b)) {
+            return 1;
+        }
+        
+        
+        return 1; // Si no cumple las condiciones, devuelve 1
+    }
+    
+    /**
+     * 
+     * @param value
+     */
+    public void add(Integer value) {
+    	addRecursive(this, value);
+    }
+    
+    /**
+     * 
+     */
+    public void showLeafSum() {
+        System.out.print(" "+(getValueFromNode(leftNode) + getValueFromNode(rightNode)));
+        
+        // Recorrer el subárbol izquierdo
+        if (leftNode != null) {
+            leftNode.showLeafSum();
+        }
+        
+        // Recorrer el subárbol derecho
+        if (rightNode != null) {
+            rightNode.showLeafSum();
+        }
+    }
+    
+    /**
+     * 
+     * @param current
+     * @return
+     */
+    private Integer getValueFromNode(Node current) {
+        return current != null ? current.getRaiz() : 0;
+    }
+    
+    /**
+     * 
+     * @param current
+     * @param value
+     * @return
+     */
+    public Node addRecursive(Node current, Integer value) {
+    	if (current == null) {
+            return new Node(value);  // Crear un nuevo nodo
+        }
+    	if (value < current.getRaiz()) {
+            current.setLeftNode( addRecursive(current.getLeftNode(), value));  // Insertar en el subárbol izquierdo
+        } else if (value >= current.getRaiz()) {
+        	current.setRightNode(addRecursive(current.getRightNode(), value));  // Insertar en el subárbol derecho
+        }
+
+    	return current;
+    
+    }
+    
+    // Método para imprimir la estructura del árbol
+    public void printTree(String prefix, boolean isTail) {
+        if (rightNode != null) {
+            rightNode.printTree(prefix + (isTail ? "│   " : "    "), false);
+        }
+        System.out.println(prefix + (isTail ? "└── " : "┌── ") + raiz);
+        if (leftNode != null) {
+            leftNode.printTree(prefix + (isTail ? "    " : "│   "), true);
+        }
+    }
+}

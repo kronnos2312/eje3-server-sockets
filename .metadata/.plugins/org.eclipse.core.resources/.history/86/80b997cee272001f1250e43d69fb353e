@@ -1,0 +1,11 @@
+package com.eje3.main;
+
+public class RandomProcess extends Thread{
+
+	@Override
+	public void run() {
+		super.run();
+	}
+	
+	
+}

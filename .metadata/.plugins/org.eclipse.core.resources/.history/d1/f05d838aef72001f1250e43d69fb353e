@@ -1,0 +1,23 @@
+package com.eje3.process;
+
+import com.eje3.tools.Randomizer;
+
+public class RandomProcess extends Thread{
+	
+	private Integer currentValue;
+	
+	@Override
+	public void run() {
+		currentValue = Randomizer.getInstance().getCurrent();
+	}
+		
+	public Integer getCurrentValue() {
+		return currentValue;
+	}
+
+	public void setCurrentValue(Integer currentValue) {
+		this.currentValue = currentValue;
+	}
+	
+	
+}

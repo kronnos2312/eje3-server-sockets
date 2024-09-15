@@ -1,0 +1,90 @@
+package com.eje3.process;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.eje3.main.Eje3Contans;
+import com.eje3.tools.Randomizer;
+
+
+public class RandomProcess extends Thread{
+	
+	private Integer currentValue;
+	private Socket clientSocket;
+	protected List<Integer> clientValues = new ArrayList<>();
+	private boolean status = true;
+	
+	public RandomProcess(Socket socket) {
+        this.clientSocket = socket;
+    }
+	
+		
+	public Integer getCurrentValue() {
+		return currentValue;
+	}
+
+	public void setCurrentValue(Integer currentValue) {
+		this.currentValue = currentValue;
+	}
+	
+	@Override
+	public void run() {
+		
+		try (BufferedReader in = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+	             PrintWriter out = new PrintWriter(this.clientSocket.getOutputStream(), true)) {
+
+	            String input;
+	            while ((input = in.readLine()) != null) {
+	                System.out.println("Mensaje del cliente: " + input);
+	                Integer current = casterStrInt(input);
+	                clientValues.add(current);
+	                
+	                Integer systemValue = Randomizer.getInstance().getCurrent();
+	                StringBuilder messageContext = new StringBuilder();
+	                
+	                if(current == null) {
+	                	messageContext.append(Eje3Contans.messageErrorInput);
+	                }else if(systemValue.equals(current)) {
+	                	messageContext.append(Eje3Contans.messageYouWinTurn);
+	                	
+	                }else if(!systemValue.equals(current)) {
+	                	messageContext.append(String.format(Eje3Contans.messageYouLostTurn, systemValue));
+	                }
+	                
+	                if(isGameEnd() ) {
+	                	messageContext = new StringBuilder();
+	                	messageContext.append("Juego Finalizado.");
+	                	messageContext.append("\n");
+	                	messageContext.append(status ? Eje3Contans.messageYouWin:Eje3Contans.messageYouLost);
+	                }
+	                out.println(messageContext.toString());
+	            }
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        } finally {
+	            try {
+	            	this.clientSocket.close();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	}
+	
+	private Integer casterStrInt(String valueUndecode) {
+		try {
+			return Integer.decode(valueUndecode.trim());
+		} catch (Exception e) {
+			System.out.print("Error con el valor ingresado: \n"+e.getMessage());
+			return null;
+		}
+	}
+	
+	private boolean isGameEnd() {
+		
+	}
+}

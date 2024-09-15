@@ -1,0 +1,11 @@
+package com.eje3.main;
+
+public class Eje3Contans {
+	public static String currentHost = "localhost";
+	
+	public static int portRandom = 50000;
+	public static String messageErrorInput = "El valor ingresado es erroneo";
+	public static String messageYouWin = "Ganaste!!";
+	public static String messageYouLost = "Perdiste!!";
+	public static String messageYouLostTurn = "ups el valor era (%s)";
+}
